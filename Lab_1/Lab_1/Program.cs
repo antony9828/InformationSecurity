@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace Lab_1
@@ -10,26 +11,34 @@ namespace Lab_1
         {
             do
             {
-                string path = @"/Users/Anton/OneDrive/Documents/Предметы/Защита информации/Lab_1/Lab_1/Lab_1/Txts/Text.txt";
+                string path = @"/Users/Anton/OneDrive/Documents/Предметы/Защита информации/Information Security/Lab_1/Lab_1/Txts/Text.txt";
+                //for (int i = 1040; i < 1072; i++)
+                //АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ
+                //for (int i = 1072; i < 1104; i++)
+                //абвгдежзийклмнопрстуфхцчшщъыьэюя
 
                 uint k = 0;
                 //Строка, к которой применяется шифрованияе/дешифрование
                 string s = "";
+                string s1 = "";
                 //Строка - результат шифрования/дешифрования
                 string result = "";
                 //Величина сдвига при шифровании/дешифровании
                 uint shift;
 
-                Console.WriteLine("Введите 1 для шифрования или 2 для дешифрования");
+                Console.WriteLine("Введите 1 для шифрованияб, 2 для дешифрования, 3 для дешифрования с помощью частотного анализа");
                 //Считывание переменной выбора, пока она не станет равной 1 или 2
-                while ((k != 1) && (k != 2))
+                while ((k != 1) && (k != 2) && (k != 3))
                 {
                     //Считывание переменной k, если введенные данные имеют тип uint
                     uint.TryParse(Console.ReadLine(), out k);
                     //Вывод сообщения об ошибке, если k != 1 или k != 2
-                    if ((k != 1) && (k != 2))
+                    if ((k != 1) && (k != 2) && (k != 3))
                         Console.WriteLine("Ошибка ввода, повторите попытку");
                 }
+
+                if (k == 3)
+                    goto Step3;
                 //Вывод сообщения на экран
                 Console.WriteLine("Введите величину сдвига");
                 //Считывние величины сдвига
@@ -44,6 +53,8 @@ namespace Lab_1
                     shift = shift % 32;
                 //Если выбрано шифрование
 
+
+
                 if (k == 1)
                 {
                     //Вывод сообщения на экран
@@ -54,6 +65,7 @@ namespace Lab_1
                     //Цикл по каждому символу строки
                     for (int i = 0; i < s.Length; i++)
                     {
+                        //Console.WriteLine(s1[i] + " : " + Convert.ToInt16(s[i]));
                         //Если не кириллица
                         if (((int)(s[i]) < 1040) || ((int)(s[i]) > 1103))
                             result += s[i];
@@ -84,10 +96,12 @@ namespace Lab_1
                     }
                     //Вывод на экран зашифрованной строки
                     Console.WriteLine("Строка успешно зашифрована!");
-                    StreamWriter sr = new StreamWriter(@"/Users/Anton/OneDrive/Documents/Предметы/Защита информации/Lab_1/Lab_1/Lab_1/Txts/Result.txt", false);
+                    StreamWriter sr = new StreamWriter(@"/Users/Anton/OneDrive/Documents/Предметы/Защита информации/Information Security/Lab_1/Lab_1/Txts/Result.txt", false);
                     sr.Write(result);
                     sr.Close();
                     Console.WriteLine(result);
+                    s = "";
+                    result = "";
                 }
 
                 //Если было выбрано дешифрование
@@ -97,7 +111,7 @@ namespace Lab_1
                     Console.WriteLine("Строка считывается из файла!");
                     //Считывание строки
                     //s = File.ReadAllText(path, Encoding.Default);- не читает если есть Encoding.Default
-                    StreamReader sr = new StreamReader(@"/Users/Anton/OneDrive/Documents/Предметы/Защита информации/Lab_1/Lab_1/Lab_1/Txts/Result.txt");
+                    StreamReader sr = new StreamReader(@"/Users/Anton/OneDrive/Documents/Предметы/Защита информации/Information Security/Lab_1/Lab_1/Txts/Result.txt");
                     s = sr.ReadToEnd();
                     sr.Close();
                     //Time.Start();- вообще не нужно!
@@ -136,10 +150,112 @@ namespace Lab_1
                     }
                     //Вывод на экран дешифрованной строки
                     Console.WriteLine("Строка успешно дешифрована!");
-                    StreamWriter sr1 = new StreamWriter(@"/Users/Anton/OneDrive/Documents/Предметы/Защита информации/Lab_1/Lab_1/Lab_1/Txts/Result.txt", false);
+                    StreamWriter sr1 = new StreamWriter(@"/Users/Anton/OneDrive/Documents/Предметы/Защита информации/Information Security/Lab_1/Lab_1/Txts/Result.txt", false);
                     sr1.Write(result);
                     sr1.Close();
                     Console.WriteLine(result);
+                    s = "";
+                    result = "";
+                }
+
+            Step3:
+
+                if (k == 3)
+                {
+                    //Вывод сообщения на экран
+                    Console.WriteLine("Весь текст считывается из файла!");
+                    //Подсчет повторений 
+                    StreamReader sr = new StreamReader(@"/Users/Anton/OneDrive/Documents/Предметы/Защита информации/Information Security/Lab_1/Lab_1/Txts/FullText.txt");
+                    s = sr.ReadToEnd();
+                    sr.Close();
+                    StreamReader sr1 = new StreamReader(@"/Users/Anton/OneDrive/Documents/Предметы/Защита информации/Information Security/Lab_1/Lab_1/Txts/Result.txt");
+                    s1 = sr1.ReadToEnd();
+                    sr1.Close();
+                    //Console.WriteLine(s1);
+                    int[] fullTextCount = new int[33] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+                    int[] resultCount = new int[33] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }; ;
+                    Console.WriteLine("Загрузка...");
+                    for (int i = 0; i < s.Length; i++)
+                    {
+                        if ((Convert.ToInt32(s[i]) >= 1040) && (Convert.ToInt32(s[i]) <= 1103))
+                        {
+                            if (Convert.ToInt16(s[i]) < 1072)
+                                fullTextCount[Convert.ToInt16(s[i]) - 1040]++;
+                            else
+                                fullTextCount[Convert.ToInt16(s[i]) - 1072]++;
+                        }
+                      
+                    }
+                    for (int i = 0; i < s1.Length; i++)
+                    {
+                        if ((Convert.ToInt32(s1[i]) >= 1040) && (Convert.ToInt32(s1[i]) <= 1103))
+                        {
+                            if (Convert.ToInt16(s1[i]) < 1072)
+                                resultCount[Convert.ToInt16(s1[i]) - 1040]++;
+                            else
+                                resultCount[Convert.ToInt16(s1[i]) - 1072]++;
+                        }
+
+                    }
+                    Console.WriteLine("Готово");
+                    Console.WriteLine("Количество повторений в целой книге");
+                    for (int i = 0; i < 32; i++)
+                        Console.WriteLine(Convert.ToChar(i + 1040) + ": " + fullTextCount[i]);
+                    Console.WriteLine("Количество повторений в зашифрованной главе");
+                    for (int i = 0; i < 32; i++)
+                        Console.WriteLine(Convert.ToChar(i + 1040) + ": " + resultCount[i]);
+
+                    //сопоставление максимальных значений 
+
+                    Console.WriteLine("Сопостовление максимумов");
+
+                    char[,] dictionary = new char[33, 2];
+
+                    for (int i = 0; i < 33; i++)
+                    {
+                        int maxValue = (int)fullTextCount.Max();
+                        int maxIndex = fullTextCount.ToList().IndexOf(maxValue);
+                        Console.WriteLine(maxValue + " : " + maxIndex);
+                        int maxValue1 = (int)resultCount.Max();
+                        int maxIndex1 = resultCount.ToList().IndexOf(maxValue1);
+                        Console.WriteLine(maxValue1 + " : " + maxIndex1);
+
+                        dictionary[i, 0] = Convert.ToChar(maxIndex + 1040);
+                        dictionary[i, 1] = Convert.ToChar(maxIndex1 + 1040);
+                        fullTextCount[maxIndex] = 0;
+                        resultCount[maxIndex1] = 0;
+                        Console.WriteLine(dictionary[i, 0] + " : " + dictionary[i, 1]);
+                    }
+                    Console.WriteLine(s1.Length);
+                    for (int i = 0; i < s1.Length; i++)
+                    {
+                        if ((Convert.ToInt16(s1[i]) >= 1040) && (Convert.ToInt16(s1[i]) <= 1103))
+                        {
+                            Console.WriteLine(s1[i] + " : " + Convert.ToInt16(s1[i]));
+                            for (int j = 0; j < 33; j++)
+                            {
+                                if (dictionary[j, 1] == s1[i])
+                                    result += dictionary[j, 0];
+                                else if (Convert.ToChar(Convert.ToInt16(dictionary[j, 1]) + 32) == s1[i])
+                                    result += Convert.ToChar(Convert.ToInt16(dictionary[j, 0]) + 32);
+                            }
+                        }
+                        else
+                            result += s1[i];
+
+
+
+                        //Console.WriteLine(i + "/" + s1.Length);
+                    }
+
+                    Console.WriteLine("Строка успешно дешифрована!");
+                    StreamWriter sr2 = new StreamWriter(@"/Users/Anton/OneDrive/Documents/Предметы/Защита информации/Information Security/Lab_1/Lab_1/Txts/Result.txt", false);
+                    sr2.Write(result);
+                    sr2.Close();
+                    Console.WriteLine(result);
+                    s = "";
+                    result = "";
+
                 }
                 Console.WriteLine("Для выхода из программы нажмите Escape");
             } while (Console.ReadKey(true).Key != ConsoleKey.Escape);

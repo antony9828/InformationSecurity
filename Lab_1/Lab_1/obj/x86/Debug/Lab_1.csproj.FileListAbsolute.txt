@@ -10,3 +10,9 @@
 /Users/Anton/OneDrive/Documents/Предметы/Защита информации/Lab_1/Lab_1/Lab_1/obj/x86/Debug/Lab_1.csproj.CoreCompileInputs.cache
 /Users/Anton/OneDrive/Documents/Предметы/Защита информации/Lab_1/Lab_1/Lab_1/obj/x86/Debug/Lab_1.exe
 /Users/Anton/OneDrive/Documents/Предметы/Защита информации/Lab_1/Lab_1/Lab_1/obj/x86/Debug/Lab_1.pdb
+/Users/Anton/OneDrive/Documents/Предметы/Защита информации/Information Security/Lab_1/Lab_1/bin/Debug/Lab_1.exe
+/Users/Anton/OneDrive/Documents/Предметы/Защита информации/Information Security/Lab_1/Lab_1/bin/Debug/Lab_1.pdb
+/Users/Anton/OneDrive/Documents/Предметы/Защита информации/Information Security/Lab_1/Lab_1/obj/x86/Debug/Lab_1.csprojAssemblyReference.cache
+/Users/Anton/OneDrive/Documents/Предметы/Защита информации/Information Security/Lab_1/Lab_1/obj/x86/Debug/Lab_1.csproj.CoreCompileInputs.cache
+/Users/Anton/OneDrive/Documents/Предметы/Защита информации/Information Security/Lab_1/Lab_1/obj/x86/Debug/Lab_1.exe
+/Users/Anton/OneDrive/Documents/Предметы/Защита информации/Information Security/Lab_1/Lab_1/obj/x86/Debug/Lab_1.pdb
