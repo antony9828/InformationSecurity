@@ -26,19 +26,23 @@ namespace Lab_1
                 //Величина сдвига при шифровании/дешифровании
                 uint shift;
 
-                Console.WriteLine("Введите 1 для шифрованияб, 2 для дешифрования, 3 для дешифрования с помощью частотного анализа");
+                Console.WriteLine("Введите 1 для шифрованияб, 2 для дешифрования, 3 для дешифрования с помощью частотного анализа, 4 для дешифрования с помощью частотного анализа (биграммы)");
                 //Считывание переменной выбора, пока она не станет равной 1 или 2
-                while ((k != 1) && (k != 2) && (k != 3))
+                while ((k != 1) && (k != 2) && (k != 3) && (k != 4))
                 {
                     //Считывание переменной k, если введенные данные имеют тип uint
                     uint.TryParse(Console.ReadLine(), out k);
                     //Вывод сообщения об ошибке, если k != 1 или k != 2
-                    if ((k != 1) && (k != 2) && (k != 3))
+                    if ((k != 1) && (k != 2) && (k != 3) && (k != 4))
                         Console.WriteLine("Ошибка ввода, повторите попытку");
                 }
 
                 if (k == 3)
                     goto Step3;
+
+                if (k == 4)
+                    goto Step4;
+
                 //Вывод сообщения на экран
                 Console.WriteLine("Введите величину сдвига");
                 //Считывние величины сдвига
@@ -172,8 +176,8 @@ namespace Lab_1
                     s1 = sr1.ReadToEnd();
                     sr1.Close();
                     //Console.WriteLine(s1);
-                    int[] fullTextCount = new int[33] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-                    int[] resultCount = new int[33] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }; ;
+                    int[] fullTextCount = new int[32];
+                    int[] resultCount = new int[32];
                     Console.WriteLine("Загрузка...");
                     for (int i = 0; i < s.Length; i++)
                     {
@@ -209,9 +213,9 @@ namespace Lab_1
 
                     Console.WriteLine("Сопостовление максимумов");
 
-                    char[,] dictionary = new char[33, 2];
+                    char[,] dictionary = new char[32, 2];
 
-                    for (int i = 0; i < 33; i++)
+                    for (int i = 0; i < 32; i++)
                     {
                         int maxValue = (int)fullTextCount.Max();
                         int maxIndex = fullTextCount.ToList().IndexOf(maxValue);
@@ -226,13 +230,12 @@ namespace Lab_1
                         resultCount[maxIndex1] = 0;
                         Console.WriteLine(dictionary[i, 0] + " : " + dictionary[i, 1]);
                     }
-                    Console.WriteLine(s1.Length);
+                    Console.WriteLine("Замена букв в зашифрованном тексте");
                     for (int i = 0; i < s1.Length; i++)
                     {
                         if ((Convert.ToInt16(s1[i]) >= 1040) && (Convert.ToInt16(s1[i]) <= 1103))
                         {
-                            Console.WriteLine(s1[i] + " : " + Convert.ToInt16(s1[i]));
-                            for (int j = 0; j < 33; j++)
+                            for (int j = 0; j < 32; j++)
                             {
                                 if (dictionary[j, 1] == s1[i])
                                     result += dictionary[j, 0];
@@ -242,10 +245,6 @@ namespace Lab_1
                         }
                         else
                             result += s1[i];
-
-
-
-                        //Console.WriteLine(i + "/" + s1.Length);
                     }
 
                     Console.WriteLine("Строка успешно дешифрована!");
@@ -254,8 +253,164 @@ namespace Lab_1
                     sr2.Close();
                     Console.WriteLine(result);
                     s = "";
+                    s1 = "";
                     result = "";
 
+                }
+
+            Step4:
+
+                //дешифрования с помощью частотного анализа (биграммы)
+
+                if (k == 4)
+                {
+                    //Вывод сообщения на экран
+                    Console.WriteLine("Весь текст считывается из файла!");
+                    //Подсчет повторений 
+                    StreamReader sr = new StreamReader(@"/Users/Anton/OneDrive/Documents/Предметы/Защита информации/Information Security/Lab_1/Lab_1/Txts/FullText.txt");
+                    s = sr.ReadToEnd();
+                    sr.Close();
+                    StreamReader sr1 = new StreamReader(@"/Users/Anton/OneDrive/Documents/Предметы/Защита информации/Information Security/Lab_1/Lab_1/Txts/Result.txt");
+                    s1 = sr1.ReadToEnd();
+                    sr1.Close();
+                    //Console.WriteLine(s1);
+                    int[] fullTextCount = new int[1024];
+                    int[] resultCount = new int[1024];
+                    Console.WriteLine("Загрузка...");
+
+                    for (int i = 0; i < s.Length - 1; i++)
+                    {
+                        if ((Convert.ToInt32(s[i]) >= 1040) && (Convert.ToInt32(s[i]) <= 1103) &&
+                            (Convert.ToInt32(s[i + 1]) >= 1040) && (Convert.ToInt32(s[i + 1]) <= 1103))
+                        {
+                            if ((Convert.ToInt16(s[i]) < 1072) && (Convert.ToInt16(s[i + 1]) < 1072))
+                                fullTextCount[(Convert.ToInt16(s[i]) - 1040) * 32 + (Convert.ToInt16(s[i + 1]) - 1040)]++;
+                            else if ((Convert.ToInt16(s[i]) >= 1072) && (Convert.ToInt16(s[i + 1]) < 1072))
+                                fullTextCount[(Convert.ToInt16(s[i]) - 1070) * 32 + (Convert.ToInt16(s[i + 1]) - 1040)]++;
+                            else if ((Convert.ToInt16(s[i]) < 1072) && (Convert.ToInt16(s[i + 1]) >= 1072))
+                                fullTextCount[(Convert.ToInt16(s[i]) - 1040) * 32 + (Convert.ToInt16(s[i + 1]) - 1070)]++;
+                            else if ((Convert.ToInt16(s[i]) >= 1072) && (Convert.ToInt16(s[i + 1]) >= 1072))
+                                fullTextCount[(Convert.ToInt16(s[i]) - 1072) * 32 + (Convert.ToInt16(s[i + 1]) - 1072)]++;
+                        }
+                    }
+
+                    for (int i = 0; i < s1.Length - 1; i++)
+                    {
+                        if ((Convert.ToInt32(s1[i]) >= 1040) && (Convert.ToInt32(s1[i]) <= 1103) &&
+                            (Convert.ToInt32(s1[i + 1]) >= 1040) && (Convert.ToInt32(s1[i + 1]) <= 1103))
+                        {
+                            if ((Convert.ToInt16(s1[i]) < 1072) && (Convert.ToInt16(s1[i + 1]) < 1072))
+                                resultCount[(Convert.ToInt16(s1[i]) - 1040) * 32 + (Convert.ToInt16(s1[i + 1]) - 1040)]++;
+                            else if ((Convert.ToInt16(s1[i]) >= 1072) && (Convert.ToInt16(s1[i + 1]) < 1072))
+                                resultCount[(Convert.ToInt16(s1[i]) - 1070) * 32 + (Convert.ToInt16(s1[i + 1]) - 1040)]++;
+                            else if ((Convert.ToInt16(s1[i]) < 1072) && (Convert.ToInt16(s1[i + 1]) >= 1072))
+                                resultCount[(Convert.ToInt16(s1[i]) - 1040) * 32 + (Convert.ToInt16(s1[i + 1]) - 1070)]++;
+                            else if ((Convert.ToInt16(s1[i]) >= 1072) && (Convert.ToInt16(s1[i + 1]) >= 1072))
+                                resultCount[(Convert.ToInt16(s1[i]) - 1072) * 32 + (Convert.ToInt16(s1[i + 1]) - 1072)]++;
+                        }
+                    }
+
+                    Console.WriteLine("Количество повторений в целой книге");
+                    for (int i = 0; i < 1024; i++)
+                        Console.WriteLine(fullTextCount[i]);
+                    Console.WriteLine("Количество повторений в зашифрованной главе");
+                    for (int i = 0; i < 1024; i++)
+                        Console.WriteLine(resultCount[i]);
+
+                    Console.WriteLine("Сопостовление максимумов");
+
+                    string[,] dictionary = new string[1024, 2];
+
+                    for (int i = 0; i < 1024; i++)
+                    {
+                        int maxValue = (int)fullTextCount.Max();
+                        int maxIndex = fullTextCount.ToList().IndexOf(maxValue);
+                        Console.WriteLine(maxValue + " : " + maxIndex);
+                        int maxValue1 = (int)resultCount.Max();
+                        int maxIndex1 = resultCount.ToList().IndexOf(maxValue1);
+                        Console.WriteLine(maxValue1 + " : " + maxIndex1);
+
+                        dictionary[i, 0] = Convert.ToChar(maxIndex / 32 + 1040).ToString() + Convert.ToChar((maxIndex - (32 * (maxIndex / 32))) + 1040).ToString();
+                        dictionary[i, 1] = Convert.ToChar(maxIndex1 / 32 + 1040).ToString() + Convert.ToChar((maxIndex1 - (32 * (maxIndex1 / 32))) + 1040).ToString();
+                        fullTextCount[maxIndex] = -i;
+                        resultCount[maxIndex1] = -i;
+                        Console.WriteLine(dictionary[i, 0] + " : " + dictionary[i, 1]);
+                    }
+                    Console.WriteLine(s1);
+                    Console.WriteLine("Замена букв в зашифрованном тексте");
+                    for (int i = 0; i < s1.Length - 1; i = i + 2)
+                    {
+                        if ((Convert.ToInt32(s1[i]) >= 1040) && (Convert.ToInt32(s1[i]) <= 1103) &&
+                            (Convert.ToInt32(s1[i + 1]) >= 1040) && (Convert.ToInt32(s1[i + 1]) <= 1103))
+                        {
+                            //Console.Write(s1[i]);
+                            //Console.WriteLine(s1[i + 1]);
+                            for (int j = 0; j < 1024; j++)
+                            {
+
+                                /*
+                                Console.WriteLine(dictionary[j, 1][0]);
+                                Console.WriteLine(dictionary[j, 1][1]);
+                                Console.WriteLine(s1[i]);
+                                Console.WriteLine(Convert.ToInt16(s1[i]));
+                                Console.WriteLine(Convert.ToChar(Convert.ToInt16(s1[i]) - 32));
+                                Console.WriteLine(s1[i + 1]);
+                                Console.WriteLine(Convert.ToInt16(s1[i + 1]) - 32);
+                                Console.WriteLine(Convert.ToChar(Convert.ToInt16(s1[i + 1]) - 32));
+                                */
+
+                                if (dictionary[j, 1][0] == s1[i] &&                                                 //A == A
+                                    dictionary[j, 1][1] == s1[i + 1])                                               //A == A
+                                {
+                                    result += dictionary[j, 0];
+                                    break;
+                                }
+                                else if (dictionary[j, 1][0] == Convert.ToChar(Convert.ToInt16(s1[i]) - 32) &&      //A == а=>A
+                                         dictionary[j, 1][1] == s1[i + 1])                                          //A == A
+                                {
+                                    result += Convert.ToChar(Convert.ToInt16(dictionary[j, 0][0]) + 32);
+                                    result += dictionary[j, 0][1];
+                                    break;
+                                }
+                                else if (dictionary[j, 1][0] == s1[i] &&                                            //A == A
+                                         dictionary[j, 1][1] == Convert.ToChar(Convert.ToInt16(s1[i + 1]) - 32))    //A == а=>A
+                                {
+                                    result += dictionary[j, 0][0]; 
+                                    result += Convert.ToChar(Convert.ToInt16(dictionary[j, 0][1]) + 32);
+                                    break;
+                                }
+                                else if (dictionary[j, 1][0] == Convert.ToChar(Convert.ToInt16(s1[i] - 32)) &&      //A == а=>A
+                                         dictionary[j, 1][1] == Convert.ToChar(Convert.ToInt16(s1[i + 1]) - 32))    //A == а=>A
+                                {
+                                    result += Convert.ToChar(Convert.ToInt16(dictionary[j, 0][0]) + 32); 
+                                    result += Convert.ToChar(Convert.ToInt16(dictionary[j, 0][1]) + 32);
+                                    break;
+                                }
+
+                            }
+                            //Console.WriteLine(result[i]);
+                            //Console.Write(result[i + 1]);
+                        }
+                        else
+                        {
+                            result += s1[i];
+                            result += s1[i + 1];
+                            //Console.WriteLine(result[i]);
+                            //Console.Write(result[i + 1]);
+                        }
+
+                            
+                    }
+
+                    Console.WriteLine("Строка успешно дешифрована!");
+                    StreamWriter sr2 = new StreamWriter(@"/Users/Anton/OneDrive/Documents/Предметы/Защита информации/Information Security/Lab_1/Lab_1/Txts/Result.txt", false);
+                    sr2.Write(result);
+                    sr2.Close();
+                    Console.WriteLine(result);
+
+                    s = "";
+                    s1 = "";
+                    result = "";
                 }
                 Console.WriteLine("Для выхода из программы нажмите Escape");
             } while (Console.ReadKey(true).Key != ConsoleKey.Escape);

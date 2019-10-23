@@ -1,16 +1,20 @@
 ﻿<Properties StartupConfiguration="{47B82E24-5292-4C43-B84F-881B9D520D57}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Lab_1/Program.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Lab_1/Txts/Result.txt">
     <Files>
-      <File FileName="Lab_1/Program.cs" Line="234" Column="81" />
+      <File FileName="Lab_1/Program.cs" Line="362" Column="1" />
       <File FileName="Lab_1/Txts/Text.txt" Line="82" Column="1" />
-      <File FileName="Lab_1/Txts/FullText.txt" Line="52587" Column="1" />
-      <File FileName="Lab_1/Txts/TextOriginal.txt" Line="1" Column="1" />
+      <File FileName="Lab_1/Txts/TextOriginal.txt" Line="82" Column="1" />
+      <File FileName="Lab_1/Txts/FullTextOriginal.txt" Line="52587" Column="1" />
+      <File FileName="Lab_1/Txts/Result.txt" Line="1" Column="1" NotebookId="1" />
+      <File FileName="Lab_1/Txts/FullText.txt" Line="1" Column="7" NotebookId="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/Anton/OneDrive/Documents/Предметы/Защита информации/Information Security/Lab_1/Lab_1/Program.cs" relfile="Lab_1/Program.cs" line="362" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.ItemProperties.Lab__1 PreferredExecutionTarget="MonoDevelop.Default" />
