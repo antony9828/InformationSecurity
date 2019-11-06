@@ -15,17 +15,19 @@ namespace Lab_2
             long K1;
             long K2;
 
+            Random rand = new Random();
+
             Console.WriteLine("Введите число Алисы: ");
             g = Convert.ToInt64(Console.ReadLine());
 
             Console.WriteLine("Введите число Боба: ");
             p = Convert.ToInt64(Console.ReadLine());
 
-            Console.WriteLine("Введите секретное число Алисы: ");
-            a = Convert.ToInt64(Console.ReadLine());
+            //Console.WriteLine("Введите секретное число Алисы: ");
+            a = rand.Next(100000000, 999999999);
 
-            Console.WriteLine("Введите секретное число Боба: ");
-            b = Convert.ToInt64(Console.ReadLine());
+            //Console.WriteLine("Введите секретное число Боба: ");
+            b = rand.Next(100000000, 999999999);
 
             A = g ^ a % p;
             B = g ^ b % p;
