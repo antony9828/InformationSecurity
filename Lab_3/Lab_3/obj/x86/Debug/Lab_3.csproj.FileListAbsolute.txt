@@ -1,0 +1,6 @@
+/Users/Anton/OneDrive/Documents/Предметы/Защита информации/Information Security/Lab_3/Lab_3/bin/Debug/Lab_3.exe
+/Users/Anton/OneDrive/Documents/Предметы/Защита информации/Information Security/Lab_3/Lab_3/bin/Debug/Lab_3.pdb
+/Users/Anton/OneDrive/Documents/Предметы/Защита информации/Information Security/Lab_3/Lab_3/obj/x86/Debug/Lab_3.csprojAssemblyReference.cache
+/Users/Anton/OneDrive/Documents/Предметы/Защита информации/Information Security/Lab_3/Lab_3/obj/x86/Debug/Lab_3.csproj.CoreCompileInputs.cache
+/Users/Anton/OneDrive/Documents/Предметы/Защита информации/Information Security/Lab_3/Lab_3/obj/x86/Debug/Lab_3.exe
+/Users/Anton/OneDrive/Documents/Предметы/Защита информации/Information Security/Lab_3/Lab_3/obj/x86/Debug/Lab_3.pdb
