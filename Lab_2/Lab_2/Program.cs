@@ -6,14 +6,14 @@ namespace Lab_2
     {
         public static void Main(string[] args)
         {
-            long a;
-            long b;
-            long g;
-            long p;
-            long A;
-            long B;
-            long K1;
-            long K2;
+            double a;
+            double b;
+            double g;
+            double p;
+            double A;
+            double B;
+            double K1;
+            double K2;
 
             Random rand = new Random();
 
@@ -24,16 +24,16 @@ namespace Lab_2
             p = Convert.ToInt64(Console.ReadLine());
 
             //Console.WriteLine("Введите секретное число Алисы: ");
-            a = rand.Next(100000000, 999999999);
+            a = rand.Next(10, 99);
 
             //Console.WriteLine("Введите секретное число Боба: ");
-            b = rand.Next(100000000, 999999999);
+            b = rand.Next(10, 99);
 
-            A = g ^ a % p;
-            B = g ^ b % p;
+            A = Math.Pow(g, a) % p;
+            B = Math.Pow(g, b) % p;
 
-            K1 = B ^ a % p;
-            K2 = A ^ b % p;
+            K1 = Math.Pow(B, a) % p;
+            K2 = Math.Pow(A, b) % p;
 
             Console.WriteLine("a: " + a);
             Console.WriteLine("b: " + b);
